@@ -82,9 +82,10 @@ class TestAWSIntegrationOrderLambda {
                 .pollInterval(Duration.ofSeconds(3))
                 .until(() -> {
                     try {
-                        awsLambda.getFunction(new GetFunctionRequest().withFunctionName(FUNCTION_NAME));
-                        LOGGER.info("Function loaded");
-                        return true;
+                        GetFunctionResult function = awsLambda.getFunction(new GetFunctionRequest().withFunctionName(FUNCTION_NAME));
+                        boolean isActive = function.getConfiguration().getState().equals(State.Active.name());
+                        LOGGER.info("Function isActive: {}", isActive);
+                        return isActive;
                     } catch (ResourceNotFoundException e) {
                         LOGGER.info("Function not found, try again");
                         return false;
