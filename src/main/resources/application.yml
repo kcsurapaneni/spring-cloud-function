@@ -3,4 +3,4 @@ spring:
     name: spring-cloud-function
 
 api:
-  order: https://api.order.com/new
+  order: https://api.dev.order.com/new
