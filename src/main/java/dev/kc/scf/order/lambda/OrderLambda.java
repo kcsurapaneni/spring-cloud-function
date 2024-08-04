@@ -29,13 +29,15 @@ public class OrderLambda {
     @Bean("order")
     Consumer<Request<OrderRequestData>> processOrder() {
         return request -> {
-            if ("order".equals(request.type())) {
+            var type = request.type();
+            LOGGER.info("Processing order request type : {}", type);
+            if ("order".equals(type)) {
                 // do some business logic and call Payment API
                 LOGGER.info("order api : {}", orderApi);
                 var responseEntity = restClient.post().uri(orderApi).body(request.data()).retrieve().toBodilessEntity();
-                LOGGER.info("Received order response: {}", responseEntity);
+                LOGGER.info("Received order response : {}", responseEntity);
             } else {
-                throw new OrderTypeNotFoundException(request.type());
+                throw new OrderTypeNotFoundException(type);
             }
         };
     }
