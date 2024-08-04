@@ -17,5 +17,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'corretto'
-      - name: run test cases
+      - name: run unit and integration test cases
         run: ./mvnw -B clean test
+      - name: run aws lambda integration test
+        run: ./mvnw test -Pintegration-tests
